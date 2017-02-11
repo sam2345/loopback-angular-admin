@@ -1,0 +1,12 @@
+web:
+    build: .
+    environment:
+      - MONGODB_URL=mongodb://localhost:27017/loopback-angular-admin
+    volumes:
+      - .:/app
+    links:
+      - db
+db:
+    image: mongo:3.2
+    ports:
+      - "27017:27017"
