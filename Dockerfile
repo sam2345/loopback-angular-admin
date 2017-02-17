@@ -20,7 +20,6 @@ RUN set -ex \
 
 ENV NPM_CONFIG_LOGLEVEL info
 ENV NODE_VERSION 7.5.0
-ENV MONGODB_URL mongodb://localhost:27017/loopback-angular-admin
 RUN curl -SLO "https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-x64.tar.xz" \
   && curl -SLO "https://nodejs.org/dist/v$NODE_VERSION/SHASUMS256.txt.asc" \
   && gpg --batch --decrypt --output SHASUMS256.txt SHASUMS256.txt.asc \
@@ -29,14 +28,13 @@ RUN curl -SLO "https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-
   && rm "node-v$NODE_VERSION-linux-x64.tar.xz" SHASUMS256.txt.asc SHASUMS256.txt \
   && ln -s /usr/local/bin/node /usr/local/bin/nodejs
 
-CMD     [ "node" ]
+
 RUN     mkdir -p /app
 WORKDIR /app
-RUN npm install nodemon -g
 COPY package.json /app
-RUN  npm install grunt-cli && npm install bower
 COPY . /app
-EXPOSE 3000
-CMD npm i && npm start
-CMD [ "node","server/server.js" ]
+RUN npm install nodemon -g
+RUN  npm install -g grunt-cli && npm install -g bower
+EXPOSE 3000 27017
 
+RUN npm run dev
