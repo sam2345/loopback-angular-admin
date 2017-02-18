@@ -33,8 +33,7 @@ RUN     mkdir -p /app
 WORKDIR /app
 COPY package.json /app
 COPY . /app
-RUN npm install nodemon -g
+EXPOSE 3000 27017 8080
 RUN  npm install -g grunt-cli && npm install -g bower
-EXPOSE 3000 27017
-
+RUN npm install
 RUN npm run dev
